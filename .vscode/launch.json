@@ -7,7 +7,7 @@
             "name": "(gdb) 启动",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/led2.elf",
+            "program": "${workspaceFolder}/build/${workspaceFolderBasename}.elf",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${fileDirname}",

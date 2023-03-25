@@ -13,7 +13,7 @@
 ######################################
 # target
 ######################################
-TARGET = led2
+TARGET = led
 
 
 ######################################
@@ -185,7 +185,7 @@ $(BUILD_DIR):
 OCD=openocd
 OCD_INTERFACE= -f interface/stlink-v2.cfg 
 OCD_TARGET= -f target/stm32f1x.cfg 
-FLASH_FILE=$(BUILD_DIR)/led2.bin
+FLASH_FILE=$(BUILD_DIR)/$(TARGET).bin
 FLASH_ADDR= 0x8000000
 OCD_COMMAND = -c init \
  -c halt \
