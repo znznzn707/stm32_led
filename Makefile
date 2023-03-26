@@ -13,7 +13,7 @@
 ######################################
 # target
 ######################################
-TARGET = led
+TARGET = key
 
 
 ######################################
@@ -36,6 +36,7 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
+Core/Src/key.c \
 Core/Src/led.c \
 Core/Src/main.c \
 Core/Src/stm32f1xx_it.c \

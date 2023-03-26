@@ -5,6 +5,8 @@
         "delay.h": "c",
         "led.h": "c",
         "stm32f103xe.h": "c",
-        "usart.h": "c"
+        "usart.h": "c",
+        "key.h": "c",
+        "sys_config.h": "c"
     }
 }
