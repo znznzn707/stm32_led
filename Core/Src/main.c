@@ -2,7 +2,6 @@
 #include "delay.h"
 #include "key.h"
 
-
 int main()
 {
     sys_stm32_clock_init(9); /* 设置时钟, 72Mhz */
@@ -16,10 +15,14 @@ int main()
     while (1)
     {
         key_res = KEY_Scan();
-        if(key_res & KEY0_DOWN) LED0_ON();
-        else LED0_OFF();
-        if(key_res & KEY1_DOWN) LED1_ON();
-        else LED1_OFF();
+        if (key_res & KEY0_DOWN)
+            LED0_ON();
+        if (key_res & KEY1_DOWN)
+            LED1_ON();
+        delay_ms(10);
+        key_res = 0x0;
+        LED1_OFF();
+        LED0_OFF();
     }
 
     while (1)

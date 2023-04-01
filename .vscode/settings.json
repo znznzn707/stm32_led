@@ -7,6 +7,7 @@
         "stm32f103xe.h": "c",
         "usart.h": "c",
         "key.h": "c",
-        "sys_config.h": "c"
+        "sys_config.h": "c",
+        "stdio.h": "c"
     }
 }
