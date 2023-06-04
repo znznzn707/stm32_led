@@ -55,8 +55,6 @@
 #endif
 /* *INDENT-ON* */
 
-#define INCLUDE_xTaskGetSchedulerState 1
-
     /* Acceptable values for configTICK_TYPE_WIDTH_IN_BITS. */
 #define TICK_TYPE_WIDTH_16_BITS 0
 #define TICK_TYPE_WIDTH_32_BITS 1

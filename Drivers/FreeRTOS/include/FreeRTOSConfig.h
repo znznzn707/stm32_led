@@ -38,18 +38,32 @@
  *
  * See http://www.freertos.org/a00110.html
  *----------------------------------------------------------*/
-
+//1:抢占式；0：协程式
 #define configUSE_PREEMPTION		1
+//使能使用空闲任务钩子函数
 #define configUSE_IDLE_HOOK			0
+//使能使用系统时钟节拍中断钩子函数
 #define configUSE_TICK_HOOK			0
+//CPU 的内核时钟频率
 #define configCPU_CLOCK_HZ			( ( unsigned long ) 72000000 )
+//FreeRTOS 系统节拍的中断频率
 #define configTICK_RATE_HZ			( ( TickType_t ) 1000 )
+//系统支持的最大任务优先级数量=configMAX_PRIORITIES-1
 #define configMAX_PRIORITIES		( 5 )
+//空闲任务的栈空间大小，单位为 word
 #define configMINIMAL_STACK_SIZE	( ( unsigned short ) 128 )
+//动态内存管理的内存大小，即 FreeRTOS 的内存堆，单位为 Byte
 #define configTOTAL_HEAP_SIZE		( ( size_t ) ( 17 * 1024 ) )
+//设置任务名的最大字符数
 #define configMAX_TASK_NAME_LEN		( 16 )
-#define configUSE_TRACE_FACILITY	0
+//使能可视化跟踪调试
+#define configUSE_TRACE_FACILITY	1
+/*用于定义系统节拍计数器的数据类型，当宏 configUSE_16_BIT_TICKS 设置为 1 时，
+系统节拍计数器的数据类型为 16 位无符号整形；当宏 configUSE_16_BIT_TICKS 设置为 0 时，
+系统节拍计数器的数据类型为 32 为无符号整型*/
 #define configUSE_16_BIT_TICKS		0
+/*设置为 1 时，在抢占调度下，同等优先级的任务可抢占
+空闲任务，并延用空闲任务剩余的时间片*/
 #define configIDLE_SHOULD_YIELD		1
 
 
@@ -63,6 +77,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskSuspend			1
 #define INCLUDE_vTaskDelayUntil			1
 #define INCLUDE_vTaskDelay				1
+#define INCLUDE_xTaskGetSchedulerState  1
 
 /* This is the raw value as per the Cortex-M3 NVIC.  Values can be 255
 (lowest) to 0 (1?) (highest). */
