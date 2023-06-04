@@ -26,7 +26,9 @@
 
 /* 如果使用os,则包括下面的头文件即可. */
 #if SYS_SUPPORT_OS
+#ifdef UCOS
 #include "includes.h"   /* os 使用 */
+#endif // 0
 #endif
 
 
@@ -118,7 +120,9 @@ void USART_UX_IRQHandler(void)
 {
     uint8_t rxdata;
 #if SYS_SUPPORT_OS  /* 如果SYS_SUPPORT_OS为真，则需要支持OS. */
+    #ifdef UCOS
     OSIntEnter();
+    #endif // 0
 #endif
 
     if (USART_UX->SR & (1 << 5))                /* 接收到数据 */
@@ -156,7 +160,9 @@ void USART_UX_IRQHandler(void)
     }
 
 #if SYS_SUPPORT_OS  /* 如果SYS_SUPPORT_OS为真，则需要支持OS. */
+    #ifdef UCOS
     OSIntExit();
+    #endif //0
 #endif
 }
 #endif

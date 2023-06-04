@@ -36,7 +36,7 @@
  * 0,不支持OS
  * 1,支持OS
  */
-#define SYS_SUPPORT_OS          0
+#define SYS_SUPPORT_OS          1
 
 
 /* sys_nvic_ex_config专用宏定义 */

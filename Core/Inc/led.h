@@ -24,7 +24,7 @@
 #define LED1_ON() (LED1_GPIO_PORT->ODR &= ~(GPIO_PIN_5))
 #define LED1_OFF() (LED1_GPIO_PORT->ODR |= GPIO_PIN_5)
 
-#else if (LED_VERSION == 2)
+#elif (LED_VERSION == 2)
 #define LED0_ON() (LED0_GPIO_PORT->BRR |= GPIO_PIN_5)
 #define LED0_OFF() (LED0_GPIO_PORT->BSRR |= GPIO_PIN_5)
 

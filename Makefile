@@ -36,6 +36,7 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
+Core/Src/freertos_demo.c \
 Core/Src/key.c \
 Core/Src/led.c \
 Core/Src/main.c \
@@ -57,7 +58,15 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_exti.c \
 Drivers/SYSTEM/src/sys.c \
 Drivers/SYSTEM/src/delay.c \
 Drivers/SYSTEM/src/usart.c \
-Core/Src/system_stm32f1xx.c  
+Drivers/FreeRTOS/src/event_groups.c \
+Drivers/FreeRTOS/src/heap_4.c \
+Drivers/FreeRTOS/src/list.c \
+Drivers/FreeRTOS/src/port.c \
+Drivers/FreeRTOS/src/queue.c \
+Drivers/FreeRTOS/src/stream_buffer.c \
+Drivers/FreeRTOS/src/tasks.c \
+Drivers/FreeRTOS/src/timers.c \
+Core/Src/system_stm32f1xx.c 
 
 # ASM sources
 ASM_SOURCES =  \
@@ -119,6 +128,7 @@ C_INCLUDES =  \
 -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F1xx/Include \
 -IDrivers/CMSIS/Include \
+-IDrivers/FreeRTOS/include \
 -IDrivers/SYSTEM/include
 
 

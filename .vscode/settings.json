@@ -8,6 +8,10 @@
         "usart.h": "c",
         "key.h": "c",
         "sys_config.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "task.h": "c",
+        "freertos.h": "c",
+        "freertos_demo.h": "c",
+        "portable.h": "c"
     }
 }

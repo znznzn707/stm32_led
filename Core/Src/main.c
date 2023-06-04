@@ -2,6 +2,7 @@
 #include "delay.h"
 #include "key.h"
 #include "usart.h"
+#include "freertos_demo.h"
 
 int main()
 {
@@ -13,22 +14,6 @@ int main()
     LED_GPIO_Init(LED0_GPIO_PORT);
     LED_GPIO_Init(LED1_GPIO_PORT);
     KEY_GPIO_Init();
-    uint8_t key_res = 0x0;
-    while (1)
-    {
-        key_res = KEY_Scan();
-        if (key_res & KEY0_DOWN)
-            LED0_ON();
-        if (key_res & KEY1_DOWN)
-            LED1_ON();
-        delay_ms(10);
-        key_res = 0x0;
-        LED1_OFF();
-        LED0_OFF();
-    }
 
-    while (1)
-    {
-        /* code */
-    }
+    freertos_demo();
 }

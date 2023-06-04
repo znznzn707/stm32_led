@@ -25,12 +25,19 @@
 
 #include "delay.h"
 
+#define FreeRTOS
+
+#ifdef FreeRTOS
+#include "FreeRTOS.h"
+#include "task.h"
+#endif
 
 static uint16_t  g_fac_us = 0;      /* us延时倍乘数 */
 
 /* 如果SYS_SUPPORT_OS定义了,说明要支持OS了(不限于UCOS) */
 #if SYS_SUPPORT_OS
 
+#ifdef UCOS
 /* 添加公共头文件 ( ucos需要用到) */
 #include "includes.h"
 
@@ -128,6 +135,27 @@ void SysTick_Handler(void)
 }
 #endif
 
+#ifdef FreeRTOS
+
+extern void xPortSysTickHandler(void);
+/**
+ * @brief       systick中断服务函数,使用FreeRTOS时用到
+ * @param       ticks: 延时的节拍数
+ * @retval      无
+ */
+void SysTick_Handler(void)
+{
+    HAL_IncTick();
+    
+    if(xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+    {
+        xPortSysTickHandler();
+    }
+}
+#endif // DEBUG
+
+#endif //root
+
 /**
  * @brief       初始化延迟函数
  * @param       sysclk: 系统时钟频率, 即CPU频率(HCLK)
@@ -142,10 +170,15 @@ void delay_init(uint16_t sysclk)
     g_fac_us = sysclk / 8;      /* 不论是否使用OS,g_fac_us都需要使用 */
 #if SYS_SUPPORT_OS              /* 如果需要支持OS. */
     reload = sysclk / 8;        /* 每秒钟的计数次数 单位为M */
+#ifdef UCOS
     reload *= 1000000 / delay_ostickspersec;/* 根据delay_ostickspersec设定溢出时间
                                              * reload为24位寄存器,最大值:16777216,在9M下,约合1.86s左右
                                              */
     g_fac_ms = 1000 / delay_ostickspersec;  /* 代表OS可以延时的最少单位 */
+#endif
+#ifdef FreeRTOS
+    reload *= 1000000 /configTICK_RATE_HZ;
+#endif // DEBUG
     SysTick->CTRL |= 1 << 1;    /* 开启SYSTICK中断 */
     SysTick->LOAD = reload;     /* 每1/delay_ostickspersec秒中断一次 */
     SysTick->CTRL |= 1 << 0;    /* 开启SYSTICK */
@@ -168,7 +201,9 @@ void delay_us(uint32_t nus)
     uint32_t reload;
     reload = SysTick->LOAD;     /* LOAD的值 */
     ticks = nus * g_fac_us;     /* 需要的节拍数 */
+#ifdef UCOS
     delay_osschedlock();        /* 阻止OS调度，防止打断us延时 */
+#endif
     told = SysTick->VAL;        /* 刚进入时的计数器值 */
 
     while (1)
@@ -192,7 +227,9 @@ void delay_us(uint32_t nus)
         }
     };
 
+#ifdef UCOS
     delay_osschedunlock();              /* 恢复OS调度 */
+#endif
 }
 
 /**
@@ -202,6 +239,7 @@ void delay_us(uint32_t nus)
  */
 void delay_ms(uint16_t nms)
 {
+#ifdef UCOS
     if (delay_osrunning && delay_osintnesting == 0)   /* 如果OS已经在跑了,并且不是在中断里面(中断里面不能任务调度) */
     {
         if (nms >= g_fac_ms)                /* 延时的时间大于OS的最少时间周期 */
@@ -213,6 +251,15 @@ void delay_ms(uint16_t nms)
     }
 
     delay_us((uint32_t)(nms * 1000));       /* 普通方式延时 */
+#endif
+
+#ifdef FreeRTOS
+    uint32_t i;
+    for (i = 0; i < nms; i++)
+    {
+        delay_us(1000);
+    }
+#endif
 }
 
 #else  /* 不使用OS时, 用以下代码 */
