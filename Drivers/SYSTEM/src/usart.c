@@ -84,6 +84,15 @@ int fputc(int ch, FILE *f)
     USART_UX->DR = (uint8_t)ch;             /* 将要发送的字符 ch 写入到DR寄存器 */
     return ch;
 }
+int _write (int fd, char *pBuffer, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        while((USART1->SR&0X40)==0);//等待上一次串口数据发送完成
+        USART1->DR = (uint8_t) pBuffer[i];       //写DR,串口1将发送数据
+    }
+    return size;
+}
 #endif
 /******************************************************************************************/
 
